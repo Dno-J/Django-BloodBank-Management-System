@@ -1,0 +1,259 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Bank Management System</title>
+
+  <!-- 🎨 External Fonts & Frameworks -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" /> <!-- Animate On Scroll -->
+
+  <style>
+    /* 🔥 Glowing button style (used for About Me) */
+    .glow-box {
+      padding: 6px 16px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 2px solid transparent;
+      animation: glowPulse 3s infinite ease-in-out;
+      box-shadow: 0 0 10px rgba(255, 221, 51, 0.6);
+      transition: transform 0.3s ease;
+    }
+
+    .glow-box:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes glowPulse {
+      0% { border-color: #ffde59; box-shadow: 0 0 8px #ffde59; }
+      25% { border-color: #ff4d6d; box-shadow: 0 0 12px #ff4d6d; }
+      50% { border-color: #00f7ff; box-shadow: 0 0 10px #00f7ff; }
+      75% { border-color: #ffde59; box-shadow: 0 0 14px #ffde59; }
+      100% { border-color: #ff4d6d; box-shadow: 0 0 8px #ff4d6d; }
+    }
+
+    /* 🌒 Page background & base text settings */
+    body {
+      background: linear-gradient(to right, #1a1a2e, #16213e);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* 🧠 Title styling */
+    .navbar-brand {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5rem;
+    }
+
+    /* 💬 Animated welcome text */
+    .welcome-text {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 10px;
+      color: #ff4d6d;
+      animation: fadeInUp 2s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 📦 Box surrounding homepage info */
+    .description-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #ff4d6d;
+      padding: 50px;
+      border-radius: 25px;
+      box-shadow: 0 0 35px rgba(255, 77, 109, 0.4);
+      max-width: 1000px;
+      margin: 50px auto 30px;
+      text-align: center;
+    }
+
+    .description-box h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ff4d6d;
+    }
+
+    .description-box p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #e0e0e0;
+    }
+
+    /* 🩸 Table container */
+    .availability-table {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 15px;
+      border: 2px solid transparent;
+      padding: 15px;
+      animation: glowBorder 4s infinite;
+    }
+
+    @keyframes glowBorder {
+      0%   { border-color: #ff4d6d; box-shadow: 0 0 5px #ff4d6d; }
+      50%  { border-color: #e94560; box-shadow: 0 0 15px #e94560; }
+      100% { border-color: #ff4d6d; box-shadow: 0 0 5px #ff4d6d; }
+    }
+
+    /* 🧭 Navigation buttons */
+    .action-section {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .action-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #ff4d6d;
+      padding: 30px;
+      border-radius: 20px;
+      width: 280px;
+      text-align: center;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(255, 77, 109, 0.2);
+    }
+
+    .action-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 77, 109, 0.4);
+    }
+
+    .action-box a {
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* 📎 Footer styles */
+    footer {
+      background-color: #111;
+      padding: 15px 10px;
+      text-align: center;
+      color: #ccc;
+      font-size: 0.95rem;
+    }
+
+    footer span { color: #ff4d6d; }
+    footer a { color: #ff4d6d; text-decoration: none; }
+
+    /* 🎉 Background floating emojis */
+    .floating-emoji {
+      position: fixed;
+      bottom: -50px;
+      font-size: 2rem;
+      opacity: 0.2;
+      animation: floatUp 20s infinite linear;
+      z-index: 0;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0.3; }
+      100% { transform: translateY(-150vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔺 Navbar with glowing About & Logout buttons -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container d-flex justify-content-between align-items-center" style="min-height: 60px;">
+    <!-- Left: About Me glowing link -->
+    <a href="{% url 'about' %}" class="glow-box text-warning text-decoration-none">About Me</a>
+
+    <!-- Center: System title -->
+    <a class="navbar-brand text-danger mx-auto" href="{% url 'home' %}">
+      BLOOD BANK MANAGEMENT SYSTEM
+    </a>
+
+    <!-- Right: Logout button -->
+    <div style="padding: 8px 0; display: flex; align-items: center; height: 100%;">
+      <form action="{% url 'admin_logout' %}" method="post" class="m-0">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-danger">Logout</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- 🎉 Animated welcome message -->
+<div class="welcome-text">Welcome to the BBMS — Donate Blood, Save Lives ❤️</div>
+
+<!-- 💾 Blood availability + About BBMS description -->
+<div class="container">
+  <div class="description-box" data-aos="fade-up">
+
+    <!-- 🩸 Blood units availability table -->
+    <div class="availability-table table-responsive mt-4" data-aos="fade-up">
+      <h4 class="text-center text-warning mb-3">🩸 Available Blood Units</h4>
+      <table class="table table-bordered text-center text-white">
+        <thead>
+          <tr class="table-danger">
+            <th>Blood Group</th>
+            <th>Available Units (mL)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group, units in availability.items %}
+          <tr>
+            <td><strong>{{ group }}</strong></td>
+            <td>{{ units }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 📃 BBMS explanation text -->
+    <h2>Why BBMS?</h2>
+    <p>The <strong>Blood Bank Management System</strong> is a reliable platform built with Django for facilitating blood donation and emergency blood requests. It offers a seamless interface for registering donors, managing patient needs, and browsing available donors based on location and blood group.</p>
+    <p>Whether you are a donor or in need of blood urgently, this system helps bridge the gap between availability and access — all while looking clean and feeling fast.</p>
+  </div>
+</div>
+
+<!-- 🚀 Quick Access Buttons -->
+<div class="container action-section" data-aos="zoom-in">
+  <div class="action-box"><a href="/register/">🩸 Become a Donor</a></div>
+  <div class="action-box"><a href="/request/">🚨 Request Blood</a></div>
+  <div class="action-box"><a href="/donors-info/">📂 Donators Info</a></div>
+  <div class="action-box"><a href="/requesters-info/">📂 Requesters Info</a></div>
+</div>
+
+<!-- 👣 Footer -->
+<footer data-aos="fade-up">
+  Made with <span>❤️</span> by <strong>Dino</strong> · <a href="mailto:acksondino00@gmail.com">jacksondino00@gmail.com</a>
+</footer>
+
+<!-- 🔗 JS & AOS animations -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+
+<!-- 🎈 Floating emoji animation -->
+<script>
+  const emojis = ["🩸", "💉", "🚑", "❤️", "🧬", "🩺"];
+  for (let i = 0; i < 25; i++) {
+    const emoji = document.createElement("div");
+    emoji.className = "floating-emoji";
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (10 + Math.random() * 20) + "s";
+    emoji.style.fontSize = (20 + Math.random() * 30) + "px";
+    document.body.appendChild(emoji);
+  }
+</script>
+
+</body>
+</html>
