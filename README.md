@@ -6,22 +6,22 @@ This is a web-based Blood Bank Management System built using **Django**. It allo
 
 ## 🌟 Features
 
-- 🔐 Secure Admin Login
-- 🧑‍🦰 Donor Registration with Blood Group, Quantity, and Contact Info
-- 🩸 Blood Request Submission by Hospitals/Patients
-- 📊 Real-time Blood Group Availability Dashboard
-- 📋 Donor & Requester Information View/Delete
-- 🚪 Logout with Session Handling
-- 🌙 Stylish Dark Mode UI with AOS Animations
+- 🔐 Secure Admin Login  
+- 🧑‍🦰 Donor Registration with Blood Group, Quantity, and Contact Info  
+- 🩸 Blood Request Submission by Hospitals/Patients  
+- 📊 Real-time Blood Group Availability Dashboard  
+- 📋 Donor & Requester Information View/Delete  
+- 🚪 Logout with Session Handling  
+- 🌙 Stylish Dark Mode UI with AOS Animations  
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Django (Python 3)
-- **Frontend:** HTML, Bootstrap 5, CSS, AOS
-- **Database:** SQLite3 (default Django DB)
-- **Version Control:** Git & GitHub
+- **Backend:** Django (Python 3)  
+- **Frontend:** HTML, Bootstrap 5, CSS, AOS  
+- **Database:** SQLite3 (default Django DB)  
+- **Version Control:** Git & GitHub  
 
 ---
 
@@ -29,16 +29,18 @@ This is a web-based Blood Bank Management System built using **Django**. It allo
 
 ## ✅ Prerequisites
 
-- Python 3.10+ installed
-- Git installed
+- Python 3.10+ installed  
+- Git installed  
 - Django installed:
   ```bash
   pip install django
+  ```
 
 ---
 
 ## 🚀 Steps to Run Locally
 
+```bash
 # Clone the repository
 git clone https://github.com/Dno-J/Django-BloodBank-Management-System.git
 cd Django-BloodBank-Management-System
@@ -59,11 +61,13 @@ python manage.py createsuperuser
 
 # Run the server
 python manage.py runserver
+```
 
 ---
 
 ## 📁 Project Structure
 
+```
 BBMS/
 ├── blood/
 │   ├── templates/
@@ -77,11 +81,13 @@ BBMS/
 │   └── urls.py
 ├── db.sqlite3
 └── manage.py
+```
 
 ---
 
 ## 📌 Git/GitHub Workflow (Used)
 
+```bash
 # Initialize Git
 git init
 
@@ -103,23 +109,20 @@ notepad .gitignore  # Add: __pycache__/, *.pyc, *.sqlite3, .env, etc.
 git add .gitignore
 git commit -m "Add .gitignore"
 git push
+```
+
+---
 
 ## 🧠 Future Improvements
 
----
-
-Email/SMS notifications to donors
-
-Filtering/searching donors by location/blood type
-
-Export reports to PDF/CSV
-
-Auto-matching donors to urgent requests
-
-REST API for mobile app integration
+- Email/SMS notifications to donors  
+- Filtering/searching donors by location/blood type  
+- Export reports to PDF/CSV  
+- Auto-matching donors to urgent requests  
+- REST API for mobile app integration  
 
 ---
 
-Dino Jackson
-📧 [jacksondino00@gmail.com]
+Dino Jackson  
+📧 [jacksondino00@gmail.com]  
 🌐 [www.linkedin.com/in/dino-jackson-486840368]
