@@ -1,259 +1,348 @@
 {% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blood Bank Management System</title>
-
-  <!-- 🎨 External Fonts & Frameworks -->
+  <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron&display=swap" rel="stylesheet" />
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" /> <!-- Animate On Scroll -->
-
   <style>
-    /* 🔥 Glowing button style (used for About Me) */
-    .glow-box {
-      padding: 6px 16px;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 2px solid transparent;
-      animation: glowPulse 3s infinite ease-in-out;
-      box-shadow: 0 0 10px rgba(255, 221, 51, 0.6);
-      transition: transform 0.3s ease;
-    }
-
-    .glow-box:hover {
-      transform: scale(1.05);
-    }
-
-    @keyframes glowPulse {
-      0% { border-color: #ffde59; box-shadow: 0 0 8px #ffde59; }
-      25% { border-color: #ff4d6d; box-shadow: 0 0 12px #ff4d6d; }
-      50% { border-color: #00f7ff; box-shadow: 0 0 10px #00f7ff; }
-      75% { border-color: #ffde59; box-shadow: 0 0 14px #ffde59; }
-      100% { border-color: #ff4d6d; box-shadow: 0 0 8px #ff4d6d; }
-    }
-
-    /* 🌒 Page background & base text settings */
     body {
-      background: linear-gradient(to right, #1a1a2e, #16213e);
+      background-color: #121212;
       color: #fff;
-      font-family: 'Orbitron', sans-serif;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
 
-    /* 🧠 Title styling */
-    .navbar-brand {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 2.5rem;
-    }
-
-    /* 💬 Animated welcome text */
-    .welcome-text {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-top: 10px;
-      color: #ff4d6d;
-      animation: fadeInUp 2s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* 📦 Box surrounding homepage info */
-    .description-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #ff4d6d;
-      padding: 50px;
-      border-radius: 25px;
-      box-shadow: 0 0 35px rgba(255, 77, 109, 0.4);
-      max-width: 1000px;
-      margin: 50px auto 30px;
-      text-align: center;
-    }
-
-    .description-box h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #ff4d6d;
-    }
-
-    .description-box p {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #e0e0e0;
-    }
-
-    /* 🩸 Table container */
-    .availability-table {
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 15px;
-      border: 2px solid transparent;
-      padding: 15px;
-      animation: glowBorder 4s infinite;
-    }
-
-    @keyframes glowBorder {
-      0%   { border-color: #ff4d6d; box-shadow: 0 0 5px #ff4d6d; }
-      50%  { border-color: #e94560; box-shadow: 0 0 15px #e94560; }
-      100% { border-color: #ff4d6d; box-shadow: 0 0 5px #ff4d6d; }
-    }
-
-    /* 🧭 Navigation buttons */
-    .action-section {
+    .outer-wrapper {
+      flex: 1;
       display: flex;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-bottom: 50px;
+      padding: 40px 20px;
     }
 
-    .action-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #ff4d6d;
-      padding: 30px;
-      border-radius: 20px;
-      width: 280px;
-      text-align: center;
-      transition: 0.3s;
-      box-shadow: 0 0 15px rgba(255, 77, 109, 0.2);
+    .dashboard-box {
+      width: 100%;
+      max-width: 1800px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      border: 2px solid #444;
     }
 
-    .action-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255, 77, 109, 0.4);
-    }
-
-    .action-box a {
-      text-decoration: none;
-      font-size: 1.2rem;
+    h2 {
       font-weight: bold;
+      text-transform: uppercase;
       color: #fff;
-    }
-
-    /* 📎 Footer styles */
-    footer {
-      background-color: #111;
-      padding: 15px 10px;
       text-align: center;
-      color: #ccc;
-      font-size: 0.95rem;
+      margin-bottom: 40px;
     }
 
-    footer span { color: #ff4d6d; }
-    footer a { color: #ff4d6d; text-decoration: none; }
-
-    /* 🎉 Background floating emojis */
-    .floating-emoji {
-      position: fixed;
-      bottom: -50px;
-      font-size: 2rem;
-      opacity: 0.2;
-      animation: floatUp 20s infinite linear;
-      z-index: 0;
+    .section-box {
+      background-color: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 30px;
+      overflow-x: auto;
     }
 
-    @keyframes floatUp {
-      0%   { transform: translateY(0) scale(1); opacity: 0.3; }
-      100% { transform: translateY(-150vh) scale(1.2); opacity: 0; }
+    .donation-box {
+      border: 2px solid #dc3545;
+      box-shadow: 0 0 12px rgba(220, 53, 69, 0.4);
+    }
+
+    .request-box {
+      border: 2px solid #ffc107;
+      box-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
+    }
+
+    .summary-box {
+      border: 2px solid #0d6efd;
+      box-shadow: 0 0 12px rgba(13, 110, 253, 0.4);
+    }
+
+    .section-box table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .section-box table th,
+    .section-box table td {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      vertical-align: middle;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .section-box table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .section-box table thead th {
+      position: sticky;
+      top: 0;
+      background-color: #1e1e1e;
+      z-index: 1;
+    }
+
+    td:first-child {
+      max-width: 220px;
+    }
+
+    table th {
+      font-weight: 600;
+    }
+
+    .admin-links a {
+      margin-right: 10px;
+    }
+
+    .scroll-box {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .recent-table {
+      width: max-content;
+      table-layout: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .section-box {
+        padding: 20px;
+      }
+
+      .dashboard-box {
+        padding: 20px;
+      }
+
+      .recent-table {
+        min-width: 1000px;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- 🔺 Navbar with glowing About & Logout buttons -->
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container d-flex justify-content-between align-items-center" style="min-height: 60px;">
-    <!-- Left: About Me glowing link -->
-    <a href="{% url 'about' %}" class="glow-box text-warning text-decoration-none">About Me</a>
-
-    <!-- Center: System title -->
-    <a class="navbar-brand text-danger mx-auto" href="{% url 'home' %}">
-      BLOOD BANK MANAGEMENT SYSTEM
-    </a>
-
-    <!-- Right: Logout button -->
-    <div style="padding: 8px 0; display: flex; align-items: center; height: 100%;">
-      <form action="{% url 'admin_logout' %}" method="post" class="m-0">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-sm btn-danger">Logout</button>
-      </form>
-    </div>
-  </div>
+<!-- 🔺 Admin Navbar -->
+<nav class="navbar bg-dark border-bottom border-light justify-content-center py-3">
+  <a href="{% url 'home' %}" class="navbar-brand mb-0 h1 text-light text-decoration-none" style="font-family: 'Segoe UI', sans-serif; font-size: 2rem;">
+    BLOOD BANK MANAGEMENT
+  </a>
+  <!-- 🚪 Logout Button -->
+  <form method="post" action="{% url 'logout' %}" class="position-absolute end-0 top-50 translate-middle-y me-4">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger btn-sm">
+      Logout
+    </button>
+  </form>
 </nav>
 
-<!-- 🎉 Animated welcome message -->
-<div class="welcome-text">Welcome to the BBMS — Donate Blood, Save Lives ❤️</div>
+<div class="outer-wrapper">
+  <div class="dashboard-box">
 
-<!-- 💾 Blood availability + About BBMS description -->
-<div class="container">
-  <div class="description-box" data-aos="fade-up">
+    <h2>ADMIN DASHBOARD</h2>
 
-    <!-- 🩸 Blood units availability table -->
-    <div class="availability-table table-responsive mt-4" data-aos="fade-up">
-      <h4 class="text-center text-warning mb-3">🩸 Available Blood Units</h4>
-      <table class="table table-bordered text-center text-white">
+    <!-- ✅ Verification Summary -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="section-box donation-box h-100">
+          <h4 class="text-danger mb-3">Donor Verification</h4>
+          <p>✅ Verified: <strong>{{ verified_donors|length }}</strong></p>
+          <p>❌ Unverified: <strong>{{ unverified_donors|length }}</strong></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="section-box request-box h-100">
+          <h4 class="text-warning mb-3">Request Verification</h4>
+          <p>✅ Verified: <strong>{{ verified_requests|length }}</strong></p>
+          <p>❌ Unverified: <strong>{{ unverified_requests|length }}</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🩸 Unified Blood Summary Table -->
+    <div class="section-box summary-box mb-4">
+      <h4 class="text-info mb-3">Blood Summary</h4>
+      <table class="table table-bordered table-dark table-striped text-center mb-0">
         <thead>
-          <tr class="table-danger">
-            <th>Blood Group</th>
-            <th>Available Units (mL)</th>
+          <tr>
+            <th>Blood Type</th>
+            <th>Donated (mL)</th>
+            <th>Requested (mL)</th>
+            <th>Available (mL)</th>
           </tr>
         </thead>
         <tbody>
-          {% for group, units in availability.items %}
+          {% for bt in blood_types %}
           <tr>
-            <td><strong>{{ group }}</strong></td>
-            <td>{{ units }}</td>
+            <td>{{ bt }}</td>
+            <td>{{ donor_blood_summary|get_item:bt|default:0 }}</td>
+            <td>{{ request_blood_summary|get_item:bt|default:0 }}</td>
+            <td>{{ available_blood_summary|get_item:bt|default:0 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
 
-    <!-- 📃 BBMS explanation text -->
-    <h2>Why BBMS?</h2>
-    <p>The <strong>Blood Bank Management System</strong> is a reliable platform built with Django for facilitating blood donation and emergency blood requests. It offers a seamless interface for registering donors, managing patient needs, and browsing available donors based on location and blood group.</p>
-    <p>Whether you are a donor or in need of blood urgently, this system helps bridge the gap between availability and access — all while looking clean and feeling fast.</p>
-  </div>
-</div>
+    <!-- 📅 Recent Activity -->
+    <div class="row mb-4">
+      <!-- Donations -->
+      <div class="col-md-6">
+        <div class="section-box donation-box">
+          <h4 class="text-danger mb-3">Recent Donations</h4>
+          <div class="scroll-box">
+            <table class="table table-bordered text-center table-dark table-striped mb-0 recent-table">
+              <thead>
+                <tr>
+                  <th>Donor</th>
+                  <th>Date</th>
+                  <th>Location</th>
+                  <th>Units</th>
+                  <th>Available</th>
+                  <th>Notes</th>
+                  <th>Verified</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for d in recent_donors %}
+                <tr>
+                  <td>
+                    {{ d.user.get_full_name|default:d.user.username }}<br>
+                    <small style="color: #ffc107;">{{ d.user.email }}</small>
+                  </td>
+                  <td>{{ d.donation_date|date:"F j, Y" }}</td>
+                  <td>{{ d.location }}</td>
+                  <td>{{ d.units_donated }}</td>
+                  <td>{{ d.available|yesno:"✅,❌" }}</td>
+                  <td>{{ d.notes|default:"—" }}</td>
+                  <td>{{ d.verified|yesno:"✅,❌" }}</td>
+                  <td class="text-center">
+                    <div class="d-inline-flex gap-2 justify-content-center">
+                      <form method="post" action="{% url 'toggle_verification' d.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-warning">
+                          {% if d.verified %}Unverify{% else %}Verify{% endif %}
+                        </button>
+                      </form>
+                      <form method="post" action="{% url 'delete_donor' d.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this donor?');">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="text-muted">No recent donations</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-<!-- 🚀 Quick Access Buttons -->
-<div class="container action-section" data-aos="zoom-in">
-  <div class="action-box"><a href="/register/">🩸 Become a Donor</a></div>
-  <div class="action-box"><a href="/request/">🚨 Request Blood</a></div>
-  <div class="action-box"><a href="/donors-info/">📂 Donators Info</a></div>
-  <div class="action-box"><a href="/requesters-info/">📂 Requesters Info</a></div>
-</div>
+      <!-- Requests -->
+      <div class="col-md-6">
+        <div class="section-box request-box">
+          <h4 class="text-warning mb-3">Recent Requests</h4>
+          <div class="scroll-box">
+            <table class="table table-bordered text-center table-dark table-striped mb-0 recent-table">
+              <thead>
+                <tr>
+                  <th>Requester</th>
+                  <th>Date</th>
+                  <th>Location</th>
+                  <th>Patient</th>
+                  <th>Age</th>
+                  <th>Blood</th>
+                  <th>Quantity</th>
+                  <th>Verified</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in recent_requests %}
+                <tr>
+                  <td>
+                    {{ r.user.get_full_name|default:r.user.username }}<br>
+                    <small style="color: #ffc107;">{{ r.user.email }}</small>
+                  </td>
+                  <td>{{ r.requested_date|date:"F j, Y" }}</td>
+                  <td>{{ r.location }}</td>
+                  <td>{{ r.patient_name }}</td>
+                  <td>{{ r.age }}</td>
+                  <td>{{ r.blood_type }}</td>
+                  <td>{{ r.quantity_needed }} mL</td>
+                  <td>{{ r.verified|yesno:"✅,❌" }}</td>
+                  <td class="text-center">
+                    <div class="d-inline-flex gap-2 justify-content-center">
+                      <form method="post" action="{% url 'toggle_request_verification' r.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-warning">
+                          {% if r.verified %}Unverify{% else %}Verify{% endif %}
+                        </button>
+                      </form>
+                      <form method="post" action="{% url 'delete_requester' r.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this request?');">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="9" class="text-muted">No recent requests</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- 👣 Footer -->
-<footer data-aos="fade-up">
-  Made with <span>❤️</span> by <strong>Dino</strong> · <a href="mailto:acksondino00@gmail.com">jacksondino00@gmail.com</a>
-</footer>
+    <!-- 🔗 Admin Links -->
+    <div class="text-center mt-5 mb-4 admin-links d-flex flex-wrap justify-content-center gap-3">
+      <a href="{% url 'lockout_dashboard' %}" class="btn btn-outline-light">🔐 Lockout Dashboard</a>
+      <a href="{% url 'download_report_pdf' %}" class="btn btn-danger" target="_blank">
+        📄 Download Blood Report (PDF)
+      </a>
+    </div>
 
-<!-- 🔗 JS & AOS animations -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init();</script>
+    <!-- 👣 Footer -->
+    <footer class="text-center mt-5 text-light">
+      <p class="mb-0 d-flex justify-content-center align-items-center gap-3 flex-wrap">
+        Made with ❤️ by Dino ·
+        <span onclick="copyEmail()" onkeypress="if(event.key==='Enter'){copyEmail()}" tabindex="0" role="button" style="cursor: pointer; color: #ffc107;" title="Click to copy">
+          jacksondino00@gmail.com
+        </span>
+        <a href="{% url 'about' %}" class="btn btn-outline-warning btn-sm">About Me</a>
+      </p>
+    </footer>
 
-<!-- 🎈 Floating emoji animation -->
-<script>
-  const emojis = ["🩸", "💉", "🚑", "❤️", "🧬", "🩺"];
-  for (let i = 0; i < 25; i++) {
-    const emoji = document.createElement("div");
-    emoji.className = "floating-emoji";
-    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = Math.random() * 100 + "vw";
-    emoji.style.animationDuration = (10 + Math.random() * 20) + "s";
-    emoji.style.fontSize = (20 + Math.random() * 30) + "px";
-    document.body.appendChild(emoji);
-  }
-</script>
+    <!-- 📋 Email Copy Script -->
+    <script>
+      function copyEmail() {
+        const email = "jacksondino00@gmail.com";
+        navigator.clipboard.writeText(email).then(() => {
+          alert("Email copied to clipboard! 📋");
+        }, () => {
+          alert("Failed to copy email.");
+        });
+      }
+    </script>
+
+  </div> <!-- dashboard-box -->
+</div> <!-- outer-wrapper -->
 
 </body>
 </html>

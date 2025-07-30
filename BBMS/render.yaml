@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: bloodbank-backend
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: your-secret-key
+      - key: DJANGO_SETTINGS_MODULE
+        value: bloodbank.settings
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bloodbank-db
+          property: connectionString
+
+databases:
+  - name: bloodbank-db
+    plan: free

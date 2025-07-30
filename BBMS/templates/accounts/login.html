@@ -1,10 +1,9 @@
 {% load widget_tweaks %}
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Login · Blood Bank Management</title>
+  <title>User Login · Blood Bank Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     .form-control.is-invalid {
@@ -29,7 +28,7 @@
 </head>
 <body class="bg-dark text-light" style="min-height: 100vh;">
 
-<!-- 🔺 Admin Navbar -->
+<!-- 🔺 User Navbar -->
 <nav class="navbar bg-dark border-bottom border-light justify-content-center py-3">
   <a href="{% url 'signup' %}" class="navbar-brand mb-0 h1 text-light text-decoration-none" style="font-family: 'Segoe UI', sans-serif; font-size: 2rem;">
     BLOOD BANK MANAGEMENT
@@ -41,33 +40,44 @@
   <form method="post" class="row g-4 px-4 py-5 bg-secondary rounded-4 shadow-lg" style="max-width: 600px; margin: auto;">
     {% csrf_token %}
 
-    <h2 class="text-center text-warning">Admin Login</h2>
+    <h2 class="text-center text-warning">User Login</h2>
 
-    {% if error %}
+    {% if form.non_field_errors %}
       <div class="col-12">
-        <div class="error-message"><span class="error-icon">⚠️</span><span>{{ error }}</span></div>
-      </div>
-    {% endif %}
-
-    {% if warning %}
-      <div class="col-12">
-        <div class="error-message text-warning">
-          ⚠️ Warning: You have failed {{ failure_count }} login attempts.<br>
-          You will be locked out after 5.
-        </div>
+        {% for error in form.non_field_errors %}
+          <div class="error-message"><span class="error-icon">⚠️</span><span>{{ error }}</span></div>
+        {% endfor %}
       </div>
     {% endif %}
 
     <!-- Username -->
     <div class="col-12">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" name="username" id="username" class="form-control" required>
+      <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+      {% if form.username.errors %}
+        {{ form.username|add_class:"form-control is-invalid" }}
+        {% for error in form.username.errors %}
+          <div class="error-message"><span class="error-icon">⚠️</span><span>{{ error }}</span></div>
+        {% endfor %}
+      {% else %}
+        {{ form.username|add_class:"form-control" }}
+      {% endif %}
     </div>
 
     <!-- Password -->
     <div class="col-12">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" name="password" id="password" class="form-control" required>
+      <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+      {% if form.password.errors %}
+        {{ form.password|add_class:"form-control is-invalid" }}
+        {% for error in form.password.errors %}
+          <div class="error-message"><span class="error-icon">⚠️</span><span>{{ error }}</span></div>
+        {% endfor %}
+      {% else %}
+        {{ form.password|add_class:"form-control" }}
+      {% endif %}
+      <div class="form-check mt-2">
+        <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
+        <label class="form-check-label" for="showPassword">Show Password</label>
+      </div>
     </div>
 
     <!-- Submit Button -->
@@ -79,7 +89,7 @@
     <div class="col-12 text-center mt-2">
       <p class="mb-1">Don't have an account?</p>
       <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm me-2">Sign Up</a>
-      <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
+      <a href="{% url 'admin_login' %}" class="btn btn-outline-light btn-sm">Admin Login</a>
     </div>
 
     <!-- Footer -->
@@ -94,6 +104,18 @@
     </footer>
   </form>
 </div>
+
+<!-- Password Toggle Script -->
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById("id_password");
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  }
+</script>
 
 <!-- Email Copy Script -->
 <script>

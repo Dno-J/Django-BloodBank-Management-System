@@ -1,120 +1,57 @@
-{% load static %}                        <!-- Django static files loader -->
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Metadata & Title -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Me - Dino Jackson</title>
-
-  <!-- 🅰️ Fonts & Frameworks -->
+  <title>About Me · Blood Bank</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron&display=swap" rel="stylesheet" />
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  <!-- 🎨 Custom Styles -->
   <style>
-
-    /* glowing box animation (for About Me) */
-    .glow-box {
-  padding: 6px 16px;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 1rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 2px solid transparent;
-  animation: glowPulse 3s infinite ease-in-out;
-  box-shadow: 0 0 10px rgba(255, 221, 51, 0.6);
-  transition: transform 0.3s ease;
-}
-
-.glow-box:hover {
-  transform: scale(1.05);
-}
-
-@keyframes glowPulse {
-  0% {
-    border-color: #ffde59;
-    box-shadow: 0 0 8px #ffde59;
-  }
-  25% {
-    border-color: #ff4d6d;
-    box-shadow: 0 0 12px #ff4d6d;
-  }
-  50% {
-    border-color: #00f7ff;
-    box-shadow: 0 0 10px #00f7ff;
-  }
-  75% {
-    border-color: #ffde59;
-    box-shadow: 0 0 14px #ffde59;
-  }
-  100% {
-    border-color: #ff4d6d;
-    box-shadow: 0 0 8px #ff4d6d;
-  }
-}
-
     body {
-      background: linear-gradient(to right, #1a1a2e, #16213e);
+      background-color: #121212;
       color: #fff;
-      font-family: 'Orbitron', sans-serif;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
-
-    /* body, fonts, navbar title */
-    .navbar-brand {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 2.5rem;
+    .outer-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
     }
-
-    /* welcome text animation */
-    .welcome-text {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-top: 10px;
-      color: #ff4d6d;
-      animation: fadeInUp 2s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* animated about box container */
-    .about-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #ff4d6d;
-      padding: 50px;
-      border-radius: 25px;
-      box-shadow: 0 0 25px rgba(255, 77, 109, 0.5);
+    .dashboard-box {
+      width: 100%;
       max-width: 1000px;
-      margin: 50px auto 30px;
-      animation: glowBox 4s infinite alternate;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      border: 2px solid #444;
     }
-
-    @keyframes glowBox {
-      0% { box-shadow: 0 0 25px #ff4d6d; }
-      100% { box-shadow: 0 0 45px #e94560; }
-    }
-
-    .about-box h2 {
-      font-size: 2.5rem;
-      margin-bottom: 25px;
+    h2 {
+      font-weight: bold;
+      text-transform: uppercase;
       color: #ffde59;
       text-align: center;
-      animation: fadeInUp 2s ease-out;
+      margin-bottom: 30px;
     }
-
-    .about-box p {
-      font-size: 1.15rem;
-      line-height: 1.8;
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px 30px;
       color: #eee;
+      border: 2px solid #ff4d6d;
+      box-shadow: 0 0 12px rgba(255, 77, 109, 0.4);
     }
-
-    /* footer styling */
+    .info-box p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .info-box strong {
+      color: #ffc107;
+    }
     footer {
       background-color: #111;
       padding: 15px 10px;
@@ -122,98 +59,67 @@
       color: #ccc;
       font-size: 0.95rem;
     }
-
-    footer span { color: #ff4d6d; }
-    footer a { color: #ff4d6d; text-decoration: none; }
-
-    /* floating emoji animation */
-    .floating-emoji {
-      position: fixed;
-      bottom: -50px;
-      font-size: 2rem;
-      opacity: 0.2;
-      animation: floatUp 20s infinite linear;
-      z-index: 0;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 0.3; }
-      100% { transform: translateY(-150vh) scale(1.2); opacity: 0; }
+    footer span, footer a {
+      color: #ff4d6d;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-<!-- 🔻 Navbar with glowing About Me + title -->
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container d-flex justify-content-between align-items-center">
-
-    <!-- Glowing About Me Box -->
-    <a href="{% url 'about' %}" class="glow-box text-warning text-decoration-none">
-      About Me
-    </a>
-
-    <!-- Title -->
-    <a class="navbar-brand text-danger mx-auto" href="{% url 'home' %}">
-      BLOOD BANK MANAGEMENT SYSTEM
-    </a>
-
-    <!-- Empty span to balance layout -->
-    <span style="width: 80px;"></span>
+<!-- 🔺 Navbar -->
+<nav class="navbar bg-dark border-bottom border-light justify-content-center py-3 position-relative">
+  <a href="{% url 'home' %}" class="navbar-brand mb-0 h1 text-light text-decoration-none" style="font-family: 'Segoe UI', sans-serif; font-size: 2rem;">
+    BLOOD BANK MANAGEMENT
+  </a>
+  <div class="position-absolute end-0 pe-4">
+    <a href="{% url 'user_dashboard' %}" class="btn btn-outline-light btn-sm">Dashboard</a>
   </div>
 </nav>
 
-<!-- Welcome Section -->
-<div class="welcome-text">💡 Explore Who I Am</div>
-
-<!-- About Section -->
-<div class="container about-box" data-aos="fade-up">
-  <h2>👨‍💻 Dino Jackson</h2>
-  <p>
-    Hi, I’m <span style="color:#ffde59; font-weight:bold;">Dino Jackson</span> — a passionate and driven Python enthusiast dedicated to building meaningful software that blends technical precision with real-world usefulness.
-  </p>
-  <p>
-    My programming journey began with <span style="color:#ffde59;">Python</span>, and from the very first script, I was captivated by its power to automate, optimize, and solve problems efficiently. That fascination has since evolved into a strong foundation in web development, especially with <span style="color:#ffde59;">Django</span> and modern frontend technologies.
-  </p>
-  <p>
-    I hold a <span style="color:#ffde59;">B.Tech in Computer Science</span> from <span style="color:#ffde59;">Geetanjali Institute of Technical Studies, Udaipur</span>, where I laid the academic groundwork for my development skills. Beyond the classroom, I’ve built projects that solve real-world problems and deliver polished, practical solutions.
-  </p>
-  <p>
-    One of my highlights includes designing a complete <span style="color:#ffde59;">Blood Bank Management System</span> — featuring donor and recipient forms, live blood inventory tracking, and a fully animated Bootstrap interface powered by AOS effects and a real database backend.
-  </p>
-  <p>
-    I’m committed to writing clean, maintainable code, designing scalable systems, and continuously improving my skills to stay at the forefront of modern development.
-  </p>
-  <p><strong>💼 Skills:</strong> Python · SQLite · HTML · CSS · Bootstrap · Git</p>
-  <p><strong>🛠️ Tools & Frameworks:</strong> Django, AOS Animation, Bootstrap 5</p>
-  <p><strong>🚀 Learning:</strong> FastAPI, Docker, PostgreSQL, DevOps Fundamentals</p>
-  <p><strong>📬 Contact:</strong> <a href="mailto:jacksondino00@gmail.com">jacksondino00@gmail.com</a></p>
-  <p><strong>🌐 GitHub:</strong> <a href="https://github.com/Dno-J" target="_blank">github.com/Dno-J</a></p>
+<!-- 📦 Outer Wrapper -->
+<div class="outer-wrapper">
+  <div class="dashboard-box">
+    <h2>👨‍💻 Dino Jackson</h2>
+    <div class="info-box">
+      <p>Hi, I’m <strong>Dino Jackson</strong> — a backend-focused web developer with a passion for building scalable, secure, and production-ready applications.</p>
+      <p>I specialize in crafting robust APIs and full-stack systems using <strong>Django</strong>, <strong>FastAPI</strong>, and modern frontend frameworks. My work blends clean architecture with pixel-perfect UI, ensuring both technical depth and user-centric design.</p>
+      <p>I hold a <strong>B.Tech in Computer Science</strong> from <strong>GITS, Udaipur</strong>, and have built portfolio-grade projects like a complete <strong>Blood Bank Management System</strong> — featuring secure admin workflows, live inventory tracking, and a fully deployed backend with real data.</p>
+      <p>I'm committed to writing maintainable code, automating workflows, and delivering polished solutions that stand out in interviews and production environments.</p>
+      <p><strong>💼 Skills:</strong> Python · C · C++ · JavaScript (basic)</p>
+      <p><strong>🗄️ Databases:</strong> MySQL · PostgreSQL · SQLite · MongoDB</p>
+      <p><strong>🌐 Web:</strong> Django · FastAPI · Flask · HTML · CSS · Bootstrap</p>
+      <p><strong>🛠️ Tools:</strong> Git · GitHub · GitHub Actions · Postman · VS Code · PyCharm</p>
+      <p><strong>📬 Contact:</strong> <a href="mailto:jacksondino00@gmail.com">jacksondino00@gmail.com</a></p>
+      <p><strong>🌐 GitHub:</strong> <a href="https://github.com/Dno-J" target="_blank">github.com/Dno-J</a></p>
+      <p><strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/dino-jackson-486840368" target="_blank">linkedin.com/in/dino-jackson-486840368</a></p>
+    </div>
+  </div>
 </div>
 
-<!-- Footer -->
-<footer data-aos="fade-up">
-  Made with <span>💛</span> by <strong>Dino</strong> · <a href="mailto:jacksondino00@gmail.com">jacksondino00@gmail.com</a>
+
+<!-- 👣 Footer -->
+<footer class="text-center mt-5 text-light">
+  <p class="mb-0 d-flex justify-content-center align-items-center gap-3 flex-wrap">
+    Made with ❤️ by Dino ·
+    <span onclick="copyEmail()" style="cursor: pointer; color: #ffc107;" title="Click to copy">
+      jacksondino00@gmail.com
+    </span>
+    <a href="{% url 'user_dashboard' %}" class="btn btn-outline-warning btn-sm">Dashboard</a>
+  </p>
 </footer>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init();</script>
-
-<!-- Floating Emojis -->
+<!-- 📋 Email Copy Script -->
 <script>
-  const emojis = ["💻", "📘", "🧠", "⚙️", "🌐", "🎯"];
-  for (let i = 0; i < 25; i++) {
-    const emoji = document.createElement("div");
-    emoji.className = "floating-emoji";
-    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = Math.random() * 100 + "vw";
-    emoji.style.animationDuration = (10 + Math.random() * 20) + "s";
-    emoji.style.fontSize = (20 + Math.random() * 30) + "px";
-    document.body.appendChild(emoji);
+  function copyEmail() {
+    const email = "jacksondino00@gmail.com";
+    navigator.clipboard.writeText(email).then(() => {
+      alert("Email copied to clipboard! 📋");
+    }, () => {
+      alert("Failed to copy email.");
+    });
   }
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
