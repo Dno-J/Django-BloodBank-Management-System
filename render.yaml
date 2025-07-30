@@ -3,7 +3,7 @@ services:
     name: bloodbank-backend
     env: docker
     plan: free
-    dockerfilePath: bbms/Dockerfile
+    dockerfilePath: Dockerfile  # ✅ Corrected path to match root-level file
     autoDeploy: true
     healthCheckPath: /healthz
     envVars:
