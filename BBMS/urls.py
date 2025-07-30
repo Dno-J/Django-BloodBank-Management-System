@@ -1,14 +1,16 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name="homepage.html"), name='home'),  # 🚀 Homepage route
+    path('healthz/', lambda request: HttpResponse("OK"), name='healthz'),        # ❤️ Health check for Render
+
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),  # login, signup, dashboard, etc.
-    path('blood/', include('blood.urls')),        # donor and request forms
-    path('captcha/', include('captcha.urls')),    # django-simple-captcha
+    path('accounts/', include('accounts.urls')),
+    path('blood/', include('blood.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
+
 
 # Only serve media in development
 if settings.DEBUG:
