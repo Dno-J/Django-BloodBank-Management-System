@@ -3,13 +3,9 @@ services:
     name: bloodbank-backend
     env: docker
     plan: free
-
     dockerfilePath: bbms/dockerfile
     autoDeploy: true
-
     healthCheckPath: /healthz
-    startCommand: bash -c "python bbms/manage.py migrate && gunicorn BBMS.wsgi:application --bind 0.0.0.0:8000"
-
     envVars:
       - key: DJANGO_SECRET_KEY
         value: "@&csat(f@@$#&f_m1!xqo=wyg1a#u%@-_sd4-#%(4ow(06v!6f"
