@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: bloodbank-backend
+    env: docker
+    plan: free
+
+    dockerfilePath: BBMS/dockerfile                # ✅ Matches your local path
+    autoDeploy: true
+
+    healthCheckPath: /healthz                   # 🩺 Optional but recommended
+    preDeployCommand: python manage.py migrate  # 🛠️ Run DB migrations before app starts
+
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: "@&csat(f@@$#&f_m1!xqo=wyg1a#u%@-_sd4-#%(4ow(06v!6f"
+      - key: DJANGO_SETTINGS_MODULE
+        value: BBMS.settings
+      - fromDatabase:
+          name: bloodbank-db
+          property: connectionString
+          key: DATABASE_URL
+
+databases:
+  - name: bloodbank-db
+    plan: free
