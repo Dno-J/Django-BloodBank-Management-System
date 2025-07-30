@@ -1,10 +1,14 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-echo "🔧 Running collectstatic..."
-python manage.py collectstatic --noinput
+# Navigate to where manage.py is
+cd /app/BBMS
 
-echo "🔧 Running migrations..."
+echo "⚙️ Running database migrations..."
 python manage.py migrate --noinput
 
-echo "🚀 Starting Gunicorn..."
+echo "📦 Collecting static files..."
+python manage.py collectstatic --noinput
+
+echo "🚀 Starting Gunicorn server..."
 exec gunicorn BBMS.wsgi:application --bind 0.0.0.0:8000
