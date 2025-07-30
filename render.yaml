@@ -4,11 +4,11 @@ services:
     env: docker
     plan: free
 
-    dockerfilePath: BBMS/dockerfile                # ✅ Matches your local path
+    dockerfilePath: bbms/dockerfile
     autoDeploy: true
 
-    healthCheckPath: /healthz                   # 🩺 Optional but recommended
-    preDeployCommand: python manage.py migrate  # 🛠️ Run DB migrations before app starts
+    healthCheckPath: /healthz
+    preDeployCommand: python bbms/manage.py migrate
 
     envVars:
       - key: DJANGO_SECRET_KEY
