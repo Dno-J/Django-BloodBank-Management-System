@@ -14,20 +14,16 @@ if not SECRET_KEY:
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'bloodbank-backend.onrender.com',
-]
+# ✅ Accept multiple hosts via env var
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://bloodbank-backend.onrender.com',
-]
+# ✅ Accept multiple trusted origins via env var
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 X_FRAME_OPTIONS = 'DENY'
 
-PORT = os.environ.get("PORT", "8000")  # Optional, for future use
+PORT = os.environ.get("PORT", "8000")
 
 # -------------------------------
 # 📦 Installed Apps
