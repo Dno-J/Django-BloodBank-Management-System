@@ -1,5 +1,12 @@
 #!/bin/sh
 
+echo "Current directory: $(pwd)"
+echo "List files:"
+ls -la
+
+echo "List BBMS directory:"
+ls -la BBMS
+
 echo "🔧 Running collectstatic..."
 python manage.py collectstatic --noinput
 

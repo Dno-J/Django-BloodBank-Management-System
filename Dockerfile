@@ -18,7 +18,7 @@ COPY requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Copy project files
+# Copy project files (including manage.py and BBMS folder)
 COPY . .
 
 # Make entrypoint executable
