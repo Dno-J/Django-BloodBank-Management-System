@@ -2,6 +2,9 @@
 from django.contrib import admin
 from django.urls import path, include
 
+# BBMS/urls.py
+from django.http import HttpResponse
+
 # Import homepage view from blood app
 from blood import views
 
@@ -24,3 +27,6 @@ urlpatterns = [
     # 🤖 Captcha routes (used in signup form)
     path('captcha/', include('captcha.urls')),
 ]
+
+def health_check(request):
+    return HttpResponse("OK")
