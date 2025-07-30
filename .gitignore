@@ -17,6 +17,7 @@ coverage.xml
 venv/
 .env
 .env.*
+.env.template
 
 # 🧱 Django static/media
 staticfiles/

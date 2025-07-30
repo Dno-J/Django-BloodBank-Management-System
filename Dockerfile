@@ -1,22 +1,22 @@
-# Use official Python image
+# 🐍 Use official slim Python image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# 🔧 Environment settings
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Set working directory inside the container to where manage.py is
-WORKDIR /app/BBMS
+# 📁 Set working directory to project root
+WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# 📦 Install dependencies
+COPY requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy entire project into container
-COPY . /app/
+# 📁 Copy entire project
+COPY . .
 
-# Ensure entrypoint is executable
-RUN chmod +x /app/entrypoint.sh
+# 🔐 Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
-# Run entrypoint
-ENTRYPOINT ["/app/entrypoint.sh"]
+# 🚀 Run entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
