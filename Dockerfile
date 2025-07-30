@@ -5,18 +5,31 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# 📁 Set working directory to project root
+# 📁 Set working directory
 WORKDIR /app
 
-# 📦 Install dependencies
+# 🧱 Install system dependencies for WeasyPrint
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libcairo2 \
+    libgdk-pixbuf2.0-0 \
+    libffi-dev \
+    libgobject-2.0-0 \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# 📦 Install Python dependencies
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 📁 Copy entire project
+# 📁 Copy project files
 COPY . .
 
 # 🔐 Make entrypoint executable
 RUN chmod +x entrypoint.sh
 
-# 🚀 Run entrypoint script
+# 🚀 Run entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
