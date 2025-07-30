@@ -9,51 +9,50 @@ Docs:
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # 📁 Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # -------------------------------
 # 🔐 Security Settings
 # -------------------------------
-SECRET_KEY = 'django-insecure-$@6ozw19qn7u!#cd2qzbbyraqu357@sjy#lm+jh91l6(nt542@'
-# ❗ Replace with environment variable in production
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("❌ DJANGO_SECRET_KEY is not set in environment variables.")
 
-DEBUG = True  # ❗ Set to False in production to disable detailed error pages
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'your-render-url.onrender.com',  # ✅ Add Render domain here
+    'your-render-url.onrender.com',  # ✅ Add your Render domain
 ]
 
 # -------------------------------
 # 📦 Installed Apps
 # -------------------------------
 INSTALLED_APPS = [
-    'django.contrib.admin',            # Admin interface
-    'django.contrib.auth',             # Authentication system
-    'django.contrib.contenttypes',     # Content type framework
-    'django.contrib.sessions',         # Session management
-    'django.contrib.messages',         # Messaging framework
-    'django.contrib.staticfiles',      # Static file handling
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-    'blood',                # ✅ Core app for donations and requests
-    'axes',                 # ✅ Login rate-limiting and lockout
-    'accounts',             # ✅ User registration and profile
-    'captcha',              # ✅ Captcha protection for signup
-    'widget_tweaks',        # ✅ Template form customization
+    'blood',
+    'axes',
+    'accounts',
+    'captcha',
+    'widget_tweaks',
 ]
-
 
 # -------------------------------
 # ⚙️ Middleware
 # -------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-    # ✅ Serve static files efficiently in production
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,15 +65,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 # -------------------------------
 # 🔐 Authentication Backends
 # -------------------------------
 AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesBackend',              # ✅ Enables Axes login tracking
-    'django.contrib.auth.backends.ModelBackend',  # Default Django auth
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
-
 
 # -------------------------------
 # 🔗 URL & Templates
@@ -84,11 +81,11 @@ ROOT_URLCONF = 'BBMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # ✅ Global templates folder
-        'APP_DIRS': True,                  # ✅ Enables app-level templates
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',  # Required for login forms
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -98,18 +95,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'BBMS.wsgi.application'
 
-
 # -------------------------------
-# 🗃️ Database
+# 🗃️ Database (Render + PostgreSQL)
 # -------------------------------
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # ✅ Simple local DB
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
-# ❗ For Render, switch to PostgreSQL and use DATABASE_URL env var
-
 
 # -------------------------------
 # 🔐 Password Validators
@@ -121,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # -------------------------------
 # 🌍 Internationalization
 # -------------------------------
@@ -130,16 +123,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
 # -------------------------------
 # 🎨 Static Files
 # -------------------------------
-STATIC_URL = '/static/'  # ✅ URL prefix for static files
-
-# ✅ Directory where collectstatic will gather static files for production
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Optional: enable gzip compression and caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # -------------------------------
@@ -147,19 +135,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # -------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # -------------------------------
 # 🔐 Session & Login Behavior
 # -------------------------------
-LOGIN_URL = 'login'  # ✅ Redirects unauthenticated users to login
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # ✅ Ends session when browser closes
-LOGIN_REDIRECT_URL = '/accounts/dashboard/'  # ✅ Post-login landing page
-
+LOGIN_URL = 'login'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 
 # -------------------------------
 # 🛡️ Django Axes Configuration
 # -------------------------------
-AXES_FAILURE_LIMIT = 5           # ✅ Max failed login attempts before lockout
-AXES_COOLOFF_TIME = 1            # ✅ Lockout duration in hours
-AXES_LOCKOUT_CALLABLE = 'blood.views.custom_lockout_response'  # ✅ Custom lockout handler
-AXES_ENABLED = True              # ✅ Toggle Axes protection
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1
+AXES_LOCKOUT_CALLABLE = 'blood.views.custom_lockout_response'
+AXES_ENABLED = True

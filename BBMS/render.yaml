@@ -5,15 +5,16 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     autoDeploy: true
+
     envVars:
       - key: DJANGO_SECRET_KEY
-        value: your-secret-key
+        value: "@&csat(f@@$#&f_m1!xqo=wyg1a#u%@-_sd4-#%(4ow(06v!6f"  # 🔐 Wrapped in quotes to handle special characters
       - key: DJANGO_SETTINGS_MODULE
-        value: bloodbank.settings
-      - key: DATABASE_URL
-        fromDatabase:
+        value: BBMS.settings     # ✅ Matches your actual project name
+      - fromDatabase:
           name: bloodbank-db
           property: connectionString
+          key: DATABASE_URL      # ✅ Injects PostgreSQL URL into Django
 
 databases:
   - name: bloodbank-db
