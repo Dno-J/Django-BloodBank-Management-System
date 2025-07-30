@@ -27,7 +27,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'your-render-url.onrender.com',  # ✅ Add your Render domain
+    'bloodbank-backend.onrender.com',  # ✅ Add your Render domain
 ]
 
 # -------------------------------
