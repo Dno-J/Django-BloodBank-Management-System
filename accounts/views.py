@@ -148,20 +148,18 @@ def admin_login_view(request):
     if request.method == 'POST':
         if form.is_valid():
             user = form.get_user()
-            if user.is_staff:
+            if user is not None and user.is_staff:
                 login(request, user)
-                request.session['failure_count'] = 0
+                request.session['failure_count'] = 0  # Reset on success
                 return redirect('admin_dashboard')
             else:
-                error = "Access denied: Not a staff member."
-        else:
-            failure_count += 1
-            request.session['failure_count'] = failure_count
-            if failure_count >= 5:
-                error = "You have been locked out due to too many failed attempts."
-            else:
-                error = "Invalid credentials. Please try again."
-                warning = True
+                failure_count += 1
+                request.session['failure_count'] = failure_count
+                if failure_count >= 5:
+                    error = "You have been locked out due to too many failed attempts."
+                else:
+                    error = "Invalid credentials. Please try again."
+                    warning = True
 
     return render(request, 'accounts/admin_login.html', {
         'form': form,
