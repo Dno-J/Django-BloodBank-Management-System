@@ -6,15 +6,15 @@ def health_check(request):
     return HttpResponse("OK")
 
 urlpatterns = [
-    path('healthz/', health_check, name='healthz'),  # ✅ Health check
-
+    path('healthz/', health_check, name='healthz'),       # For Render health check
+    path('', include('accounts.urls')),                   # Landing page: signup
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('blood/', include('blood.urls')),
-    path('captcha/', include('captcha.urls')),
+    path('accounts/', include('accounts.urls')),          # User login/dashboard
+    path('blood/', include('blood.urls')),                # Admin and donation flows
+    path('captcha/', include('captcha.urls')),            # reCAPTCHA support
 ]
 
-# (Optional) Add static/media in dev mode
+# Serve media files during development
 from django.conf import settings
 from django.conf.urls.static import static
 
