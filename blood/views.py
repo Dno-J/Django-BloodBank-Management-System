@@ -71,28 +71,27 @@ def download_report_pdf(request):
 def summarize_blood_data(donors, requests):
     blood_types = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
     donated_units = defaultdict(int)
-    requested_units = defaultdict(int)
-    available_units = defaultdict(int)
+    requested_ml = defaultdict(int)
+    available_ml = defaultdict(int)
 
-    # Aggregate donated units
+    # Aggregate donated units (as count)
     for donor in donors:
         bt = donor.blood_type.strip()
         if donor.available:
             donated_units[bt] += donor.units_donated or 0
 
-    # Aggregate requested units
+    # Aggregate requested quantities (already in mL)
     for req in requests:
         bt = req.blood_type.strip()
-        requested_units[bt] += req.quantity_needed or 0
+        requested_ml[bt] += req.quantity_needed or 0
 
-    # Compute available units
+    # Calculate available blood in mL = donated_units * 450 - requested_ml
     for bt in blood_types:
-        donated_units[bt]  # Ensure key exists
-        requested_units[bt]
-        available_units[bt] = max(donated_units[bt] - requested_units[bt], 0)
+        total_donated_ml = donated_units[bt] * 450
+        total_requested_ml = requested_ml[bt]
+        available_ml[bt] = max(0, total_donated_ml - total_requested_ml)
 
-    return donated_units, requested_units, available_units, blood_types
-
+    return donated_units, requested_ml, available_ml, blood_types
 
 # -------------------------------
 # 🔐 Authentication Views

@@ -6,41 +6,59 @@
   <title>Blood Summary Report</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
       font-size: 14px;
       color: #333;
       margin: 40px;
+      line-height: 1.6;
     }
     h2 {
       text-align: center;
-      margin-bottom: 30px;
+      color: #c9302c;
+      margin-bottom: 5px;
+    }
+    p.unit-note {
+      text-align: center;
+      color: #666;
+      font-weight: bold;
+      margin-top: 0;
+      font-size: 12px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 25px;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 10px;
       text-align: center;
+      font-size: 13px;
     }
     th {
-      background-color: #f4f4f4;
+      background-color: #d9534f;
+      color: #fff;
+      font-weight: bold;
     }
     tr:nth-child(even) {
       background-color: #f9f9f9;
+    }
+    tfoot td {
+      background-color: #f0f0f0;
+      font-weight: bold;
+      border-top: 2px solid #999;
     }
   </style>
 </head>
 <body>
   <h2>Blood Bank Summary Report</h2>
+  <p class="unit-note">(1 unit = 450 mL)</p>
 
   <table>
     <thead>
       <tr>
         <th>Blood Type</th>
-        <th>Donated (mL)</th>
+        <th>Donated (Unit)</th>
         <th>Requested (mL)</th>
         <th>Available (mL)</th>
       </tr>
@@ -49,9 +67,9 @@
       {% for bt in blood_types %}
       <tr>
         <td>{{ bt }}</td>
-        <td>{{ donor_blood_summary|get_item:bt|default_if_none:"0" }}</td>
-        <td>{{ request_blood_summary|get_item:bt|default_if_none:"0" }}</td>
-        <td>{{ available_blood_summary|get_item:bt|default_if_none:"0" }}</td>
+        <td>{{ donor_blood_summary|get_item:bt|default:"0" }}</td>
+        <td>{{ request_blood_summary|get_item:bt|default:"0" }}</td>
+        <td>{{ available_blood_summary|get_item:bt|default:"0" }}</td>
       </tr>
       {% endfor %}
     </tbody>

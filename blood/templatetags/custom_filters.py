@@ -22,3 +22,18 @@ def add_class(field, css_class):
         return field.as_widget(attrs={"class": css_class})
     except AttributeError:
         return field  # Return as-is if it's not a form field
+
+@register.filter
+def multiply(value, arg):
+    """
+    Template filter to multiply a value by an argument.
+    Usage: {{ value|multiply:450 }}
+    Removes .0 if result is a whole number.
+    """
+    try:
+        result = float(value) * float(arg)
+        if result.is_integer():
+            return int(result)
+        return result
+    except (ValueError, TypeError):
+        return 0

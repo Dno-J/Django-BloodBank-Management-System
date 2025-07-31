@@ -153,3 +153,7 @@ AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1
 AXES_LOCKOUT_CALLABLE = 'blood.views.custom_lockout_response'
 AXES_ENABLED = True
+
+# ✅ Force CSRF and session cookies to be secure (for HTTPS on Render)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
