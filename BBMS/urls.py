@@ -6,12 +6,12 @@ def health_check(request):
     return HttpResponse("OK")
 
 urlpatterns = [
-    path('healthz/', health_check, name='healthz'),       # For Render health check
-    path('', include('accounts.urls')),                   # Landing page: signup
+    path('healthz/', health_check, name='healthz'),        # ✅ Must be before '' include
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),          # User login/dashboard
-    path('blood/', include('blood.urls')),                # Admin and donation flows
-    path('captcha/', include('captcha.urls')),            # reCAPTCHA support
+    path('accounts/', include('accounts.urls')),           # User login/dashboard
+    path('blood/', include('blood.urls')),                 # Admin and donation flows
+    path('captcha/', include('captcha.urls')),             # reCAPTCHA support
+    path('', include('accounts.urls')),                    # Landing page: signup (placed last to avoid shadowing)
 ]
 
 # Serve media files during development
