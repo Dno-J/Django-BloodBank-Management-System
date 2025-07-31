@@ -20,6 +20,11 @@ from accounts.models import Profile
 from blood.models import Donor, BloodRequest
 from blood.forms import DonorForm, BloodRequestForm  # ✅ Import both forms
 
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 # 🔧 Profile edit form using ModelForm
 class ProfileEditForm(ModelForm):
     class Meta:
