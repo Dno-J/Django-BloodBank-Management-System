@@ -12,74 +12,68 @@
       box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
     }
     .error-message {
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
       color: #dc3545;
       font-size: 0.875rem;
       margin-top: 4px;
-    }
-    .error-icon {
-      flex-shrink: 0;
-      font-size: 1rem;
-      line-height: 1;
-      margin-top: 2px;
     }
   </style>
 </head>
 <body class="bg-dark text-light" style="min-height: 100vh;">
 
-<!-- 🔺 Admin Navbar -->
+<!-- 🔺 Navbar -->
 <nav class="navbar bg-dark border-bottom border-light justify-content-center py-3">
   <a href="{% url 'signup' %}" class="navbar-brand mb-0 h1 text-light text-decoration-none" style="font-family: 'Segoe UI', sans-serif; font-size: 2rem;">
     BLOOD BANK MANAGEMENT
   </a>
 </nav>
 
-<!-- ✅ Centered Form -->
+<!-- ✅ Login Form -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
   <form method="post" class="row g-4 px-4 py-5 bg-secondary rounded-4 shadow-lg" style="max-width: 600px; margin: auto;">
     {% csrf_token %}
-
     <h2 class="text-center text-warning">Admin Login</h2>
 
     {% if error %}
-      <div class="col-12">
-        <div class="error-message"><span class="error-icon">⚠️</span><span>{{ error }}</span></div>
+      <div class="col-12 error-message">
+        ⚠️ {{ error }}
       </div>
     {% endif %}
 
     {% if warning %}
-      <div class="col-12">
-        <div class="error-message text-warning">
-          ⚠️ Warning: You have failed {{ failure_count }} login attempts.<br>
-          You will be locked out after 5.
-        </div>
+      <div class="col-12 error-message text-warning">
+        ⚠️ Warning: You have failed {{ failure_count }} login attempts.<br>
+        You will be locked out after 5.
       </div>
     {% endif %}
 
-    <!-- Username -->
+    <!-- Username Field -->
     <div class="col-12">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" name="username" id="username" class="form-control" required>
+      <label for="id_username" class="form-label">Username</label>
+      {% render_field form.username class="form-control" placeholder="Enter username" autofocus="autofocus" %}
+      {% if form.username.errors %}
+        <div class="error-message">{{ form.username.errors.0 }}</div>
+      {% endif %}
     </div>
 
-    <!-- Password -->
+    <!-- Password Field -->
     <div class="col-12">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" name="password" id="password" class="form-control" required>
+      <label for="id_password" class="form-label">Password</label>
+      {% render_field form.password class="form-control" placeholder="Enter password" %}
+      {% if form.password.errors %}
+        <div class="error-message">{{ form.password.errors.0 }}</div>
+      {% endif %}
     </div>
 
-    <!-- Submit Button -->
+    <!-- Submit -->
     <div class="col-12">
       <button type="submit" class="btn btn-primary w-100">Login</button>
     </div>
 
-    <!-- Alt Links -->
+    <!-- Navigation -->
     <div class="col-12 text-center mt-2">
       <p class="mb-1">Don't have an account?</p>
       <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm me-2">Sign Up</a>
-      <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
+      <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">User Login</a>
     </div>
 
     <!-- Footer -->
@@ -98,10 +92,9 @@
 <!-- Email Copy Script -->
 <script>
   function copyEmail() {
-    const email = "jacksondino00@gmail.com";
-    navigator.clipboard.writeText(email).then(() => {
+    navigator.clipboard.writeText("jacksondino00@gmail.com").then(() => {
       alert("Email copied to clipboard! 📋");
-    }, () => {
+    }).catch(() => {
       alert("Failed to copy email.");
     });
   }

@@ -8,6 +8,7 @@ from .views import (
     profile_view,
     register_donor,
     request_blood,
+    admin_login_view,    # ✅ NEW: Import admin login view
 )
 
 urlpatterns = [
@@ -28,4 +29,7 @@ urlpatterns = [
     # 🩸 Donor + Request Forms
     path('donate/', register_donor, name='register_donor'),
     path('request/', request_blood, name='request_blood'),
+
+    # ✅ Custom Admin Login Page (not Django admin)
+    path('admin-login/', admin_login_view, name='admin_login'),
 ]

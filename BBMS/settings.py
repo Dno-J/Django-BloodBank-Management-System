@@ -2,9 +2,12 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
+import json
+
+# 📦 Load environment variables
 load_dotenv()
 
-# 📁 Base directory of the project
+# ✅ Project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -------------------------------
@@ -16,10 +19,10 @@ if not SECRET_KEY:
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-# ✅ Accept multiple hosts via env var
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+# ✅ Use JSON-based ALLOWED_HOSTS
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-# ✅ Accept multiple trusted origins via env var
+# ✅ CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = os.environ.get(
     "CSRF_TRUSTED_ORIGINS",
     "https://bloodbank-backend-zvbu.onrender.com"
@@ -96,7 +99,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'BBMS.wsgi.application'
 
 # -------------------------------
-# 🗃️ Database (Render + PostgreSQL)
+# 🗃️ Database (PostgreSQL on Render)
 # -------------------------------
 DATABASES = {
     'default': dj_database_url.config(

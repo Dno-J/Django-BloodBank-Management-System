@@ -154,3 +154,35 @@ def request_blood(request):
         'form': form,
         'profile': profile,
     })
+
+# 🔐 Custom Admin Login View for Demo Access
+from django.contrib.auth import authenticate
+
+def admin_login_view(request):
+    error = None
+    warning = None
+    failure_count = request.session.get('failure_count', 0)
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_staff:
+            login(request, user)
+            request.session['failure_count'] = 0  # Reset on success
+            return redirect('admin_dashboard')  # Make sure this view exists
+        else:
+            failure_count += 1
+            request.session['failure_count'] = failure_count
+            if failure_count >= 5:
+                error = "You have been locked out due to too many failed attempts."
+            else:
+                error = "Invalid credentials. Please try again."
+                warning = True
+
+    return render(request, 'accounts/admin_login.html', {
+        'error': error,
+        'warning': warning,
+        'failure_count': failure_count,
+    })
