@@ -22,6 +22,10 @@ from blood.forms import DonorForm, BloodRequestForm  # ✅ Import both forms
 
 from django.http import HttpResponse
 
+# ✅ Root redirect to /signup/
+def landing_redirect(request):
+    return redirect('signup')
+
 def health_check(request):
     return HttpResponse("OK", status=200)
 
